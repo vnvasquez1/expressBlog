@@ -1,0 +1,16 @@
+<h1>NEW ARTICLE</h1>
+<form action="/articles/<%=article._id%>?_method=PUT" method="POST">
+  <p>
+    <label for="title">title</label>
+    <input type="text" name="title" id="title" placeholder="<%=article.title%>"/>
+  </p>
+  <p>
+    <label for="text">text</label>
+    <textarea name="text"><%= article.text %></textarea>
+  </p>
+  <p>
+    <input type="submit" value="Update" id="text"/>
+  </p>
+</form>
+
+<a href="/articles">Back</a>
