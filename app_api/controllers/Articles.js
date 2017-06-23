@@ -4,13 +4,23 @@ var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://192.168.1.181/myBlogDB');
 
+var sendJSONResponse= function(res,status,content){
+
+   console.log('status');
+   console.log(status);
+   console.log(content.message)
+
+   res.status(status);
+   res.json(content);
+  }
 
 module.exports.postArticle = function(req,res){
-  Articles.create(req.body,function(err,result){
+  Articles
+    .create(req.body,function(err,result){
     if(err){
       console.log(err); 
     }else{
-      res.json(result);  
+      sendJSONResponse(res,200,result);  
     } 
 
   });
@@ -18,52 +28,98 @@ module.exports.postArticle = function(req,res){
 }
 
 module.exports.getArticle = function(req,res){
-  Articles.findById(req.params.id,function(err,result){
-    if(err){
-      console.log(err); 
+  console.log("retrieving single article "
+              + req.params.id
+              + " from database");
 
-    }else{
-      res.json(result);  
-
-    }  
-  });
-   
+  if(req.params && req.params.id){
+    Articles
+      .findById(req.params.id,function(err,result){
+      if(!result){
+          sendJSONResponse(res,404,{"message":"Article Not Found!"});
+          return;
+      }else if(err){
+        console.log("error");
+        console.log(err); 
+        sendJSONResponse(res,404,err);
+        return;
+      }
+      console.log(result);
+      sendJSONResponse(res,200,result);    
+    });
+  }else{
+     sendJSONResponse(res,404,{"message":"no id"});
+  }
 }
 
 module.exports.getArticles = function(req,res){
-  Articles.find({},function(err,results){
-    if(err){
-      console.log(err); 
+  console.log("retrieving all articles from database");
 
-    }else{
-      res.json(results);  
-
-    }  
+  Articles
+    .find({},function(err,results){
+      if(!results){
+        sendJSONResponse(res,404,{'message':'No Articles Found'});  
+        return;
+      }else if(err){
+        console.log("err"); 
+        console.log(err); 
+        sendJSONResponse(res,404,err);
+        return;
+      }  
+      console.log(results);
+      sendJSONResponse(res,200,results); 
+      
   });
-   
 }
 
 module.exports.updateArticle = function(req,res){
-  Articles.findByIdAndUpdate(req.params.id,req.body,function(err,result){
-    if(err){
-      console.log(err); 
-    }else{
-      res.json(result);  
-    }
-        
+  console.log("updating article "
+              + req.params.id
+              + " from database");
+  if(req.params && req.params.id){
+    Articles
+      .findByIdAndUpdate(req.params.id,req.body,function(err,result){
+      if(!result){
+        sendJSONResponse(res,404,{'message':'No Article Found!'});  
+        return;
+      }else if(err){
+        console.log("error"); 
+        console.log(err); 
+        sendJSONResponse(res,404,err);
+        return;
+      }
+      console.log("result");
+      console.log(result);
+      sendJSONResponse(res,200,result); 
 
-  });
-   
+    });
+  }else{
+  
+    sendJSONResponse(res,404,{'message':'no id'});  
+  }   
 }
-module.exports.deleteArticle = function(req,res){
-  Articles.findByIdAndRemove(req.params.id,function(err,result){
-    if(err){
-      console.log(err); 
-    }else{
-      res.json(result);  
-    }
-        
 
-  });
-   
+module.exports.deleteArticle = function(req,res){
+  console.log("deleting article "
+              + req.params.id
+              + " from database");
+
+  if(req.params && req.params.id){
+    Articles
+      .findByIdAndRemove(req.params.id,function(err,result){
+         if(!result){
+           sendJSONResponse(res,404,{'message':'No Article Found!'});  
+           return;
+         }else if(err){
+           console.log(err); 
+           console.log(err); 
+           sendJSONresponse(res,404,err);
+           return;
+         }
+         sendJSONResponse(res,200,result); 
+
+    });
+  }else{
+    sendJSONResponse(res,404, {'message':'no id'});    
+  } 
 }

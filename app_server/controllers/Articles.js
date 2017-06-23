@@ -84,7 +84,8 @@ module.exports.getEditArticlePage = function(req,res){
 
 
 module.exports.updateArticle = function(req,res){
-  var path,requestOptions;
+  console.log("api server update Article");
+var path,requestOptions;
   path = '/api'
        + '/articles'
        + '/'
@@ -92,7 +93,7 @@ module.exports.updateArticle = function(req,res){
   requestOptions={
     url: apiOptions.server + path,
     method:"PUT",
-    json:{}
+    json:req.body
   }
   request(requestOptions,function(error,response,body){
     res.redirect('/articles/'+body._id);   
