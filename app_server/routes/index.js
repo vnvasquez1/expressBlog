@@ -1,5 +1,6 @@
 var express = require('express'),
     ctrlArticles = require('../controllers/Articles'),
+    ctrlComments = require('../controllers/Comments'),
     routes  = express.Router();
 
 function test(req,res,next){
@@ -18,5 +19,9 @@ routes.get('/articles/:id/edit',ctrlArticles.getEditArticlePage);
 routes.put('/articles/:id',test,ctrlArticles.updateArticle);
 
 routes.delete('/articles/:id',test,ctrlArticles.deleteArticle);
+
+routes.post('/articles/:id/comments',test,ctrlComments.addNewComment);
+
+routes.get('/articles/:id/comments/new',ctrlComments.getNewCommentPage);
 
 module.exports = routes;

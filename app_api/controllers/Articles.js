@@ -34,7 +34,9 @@ module.exports.getArticle = function(req,res){
 
   if(req.params && req.params.id){
     Articles
-      .findById(req.params.id,function(err,result){
+      .findById(req.params.id)
+      .populate('comments')
+      .exec(function(err,result){
       if(!result){
           sendJSONResponse(res,404,{"message":"Article Not Found!"});
           return;

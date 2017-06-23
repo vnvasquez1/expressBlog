@@ -9,5 +9,29 @@
     <%= blog.text %>
   </p>
 </div> 
+<a href="/articles/<%= blog._id %>/comments/new">Add A Comment</a>
+
+<table>
+  <tr>
+    <th>comment</th>
+    <th>date</th>
+    <th colspan="3"></th>
+  </tr>
+  <% blog.comments.forEach(function(comment){ %>
+    <tr>
+      <td><%= comment.text %> </td>
+      <td>
+        <% var d=new Date(comment.created_on);
+           var days =  Math.abs((Date.now()- d))/(60*60*1000);
+        %>
+      <%= days.toFixed(0)%>hours ago
+      
+      </td>
+    </tr>
+  <%});%>
+</table>
+
+
+
 
 <a href="/articles">Back</a>

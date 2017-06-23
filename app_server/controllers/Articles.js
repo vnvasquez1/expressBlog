@@ -60,6 +60,8 @@ module.exports.getShowPage = function(req,res){
     json:{}
   }
   request(requestOptions,function(error,response,body){
+    console.log("body from getShowPage");
+    console.log(body);
     res.render('articles/show',{blog:body});   
   })
 }
