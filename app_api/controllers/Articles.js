@@ -1,8 +1,8 @@
 //expressBlog
-var Articles = require('../models/Article');
+
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://192.168.1.181/myBlogDB');
+var Articles = mongoose.model('Article');
 
 var sendJSONResponse= function(res,status,content){
 

@@ -1,7 +1,8 @@
-var express = require('express'),
-    artCtrl = require('../controllers/Articles'),
-    comCtrl = require('../controllers/Comments'),
-    routes= express.Router();
+var express  = require('express'),
+    artCtrl  = require('../controllers/Articles'),
+    comCtrl  = require('../controllers/Comments'),
+    ctrlAuth = require('../controllers/authentication'),
+    routes   = express.Router();
 
 function test(req,res,next){
   console.log("Passing through api!!!");
@@ -15,5 +16,8 @@ routes.put('/articles/:id',artCtrl.updateArticle);
 routes.delete('/articles/:id',artCtrl.deleteArticle);
 
 routes.post('/articles/:id/comments',test,comCtrl.postComment);
+
+routes.post('/register',ctrlAuth.register);
+routes.post('/login',ctrlAuth.login);
 
 module.exports = routes;

@@ -2,9 +2,15 @@ var express        = require('express'),
     path           = require('path'),
     bodyParser     = require('body-parser'),
     methodOverride = require('method-override'),
-    routesApi      = require('./app_api/routes/index'),
-    routes         = require('./app_server/routes/index'),
+    passport       = require('passport'),
     app            = express();
+
+require('./app_api/models/db');
+require('./app_api/config/passport');
+
+var routesApi = require('./app_api/routes/index'),
+    routes    = require('./app_server/routes/index');
+
 
 var port = 3000;
 
@@ -15,6 +21,8 @@ app.use(methodOverride('_method'));
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+
+app.use(passport.initialize());
 
 app.use('/api',routesApi);
 app.use('/',routes);

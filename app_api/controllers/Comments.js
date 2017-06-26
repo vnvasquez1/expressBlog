@@ -1,6 +1,7 @@
-var Comments = require('../models/Comment');
-var Articles = require('../models/Article');
 var mongoose = require('mongoose');
+
+var Articles = mongoose.model('Article');
+var Comments = mongoose.model('Comment');
 
 module.exports.postComment = function(req,res){
   console.log("req.body from post Comment in API");
